@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hợp Đồng Tài Xế</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-taxi"></i>
+            <span>Hợp Đồng Tài Xế</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('add_contract') }}"><i class="fas fa-plus"></i> Thêm Hợp Đồng</a>
+            <a href="{{ url_for('search_contracts') }}"><i class="fas fa-search"></i> Tìm Kiếm</a>
+            <a href="{{ url_for('contract_list') }}"><i class="fas fa-list"></i> Danh Sách</a>
+            <a href="{{ url_for('customer_list') }}"><i class="fas fa-users"></i> Khách Hàng</a>
+            <a href="{{ url_for('income') }}"><i class="fas fa-money-bill"></i> Thu Nhập</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="dashboard">
+            <h2>Chào mừng {{ user.username }}!</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>Tổng số hợp đồng</h3>
+                    <p>{{ contracts_count }}</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Khách hàng</h3>
+                    <p>{{ customers_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Kiếm Hợp Đồng</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="brand">
+        <i class="fas fa-taxi"></i>
+        <span>Hợp Đồng Tài Xế</span>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('welcome') }}"><i class="fas fa-home"></i> Trang Chủ</a>
+        <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+    </div>
+</nav>
+<div class="container">
+    <a href="{{ url_for('welcome') }}" class="back-button">
+        <i class="fas fa-arrow-left"></i> Trở về
+    </a>
+
+    <div class="search-section">
+        <h2>Tìm Kiếm Hợp Đồng</h2>
+        <div class="search-hint">Có thể tìm kiếm bằng 1 tiêu chí</div>
+        <form action="{{ url_for('search_contracts') }}" method="GET" class="search-form">
+            <div class="search-inputs">
+                <input type="text" name="customer_name" placeholder="Tên khách hàng">
+                <input type="text" name="phone" placeholder="Số điện thoại">
+                <input type="text" name="contract_number" placeholder="Mã hợp đồng">
+                <input type="date" name="created_date">
+                <button type="submit" class="btn">Tìm Kiếm</button>
+            </div>
+        </form>
+    </div>
+
+    {% if contracts %}
+    <div class="results-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã HĐ</th>
+                    <th>Khách hàng</th>
+                    <th>SĐT</th>
+                    <th>Nơi đi</th>
+                    <th>Nơi đến</th>
+                    <th>Ngày tạo</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contract in contracts %}
+                <tr>
+                    <td>{{ contract.contract_number }}</td>
+                    <td>{{ contract.customer.name }}</td>
+                    <td>{{ contract.customer.phone }}</td>
+                    <td>{{ contract.pickup_location }}</td>
+                    <td>{{ contract.dropoff_location }}</td>
+                    <td>{{ contract.created_at.strftime('%d/%m/%Y') }}</td>
+                    <td>
+                        <a href="{{ url_for('contract_detail', contract_id=contract.id) }}" title="Chỉnh sửa">
+                            <i class="fas fa-pen" style="color: #007bff;"></i>
+                        </a>
+                        &nbsp;
+                        <a href="#" onclick="confirmDelete('{{ url_for('delete_contract', contract_id=contract.id) }}')" title="Xóa">
+                            <i class="fas fa-trash" style="color: #dc3545;"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function confirmDelete(url) {
+        if (confirm("Bạn có chắc muốn xóa hợp đồng này không?")) {
+            window.location.href = url;
+        }
+    }
+</script>
+</body>
+</html>

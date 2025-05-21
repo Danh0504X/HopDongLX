@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Đăng nhập</h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <input type="text" name="identifier" placeholder="Tên đăng nhập hoặc Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Mật khẩu" required>
+                </div>
+                <button type="submit" class="btn">Đăng nhập</button>
+            </form>
+            <div class="links">
+                <a href="{{ url_for('signup') }}">Tạo tài khoản mới</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

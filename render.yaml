@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: hopdonglx
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn main:app"
+    branch: main
+    autoDeploy: true

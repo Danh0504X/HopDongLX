@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Đăng ký tài khoản</h2>
+            <form action="{{ url_for('signup_post') }}" method="POST">
+                <div class="input-group">
+                    <input type="text" name="username" placeholder="Tên đăng nhập" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Mật khẩu" required>
+                </div>
+                <button type="submit" class="btn">Đăng ký</button>
+            </form>
+            <div class="links">
+                <a href="{{ url_for('login') }}">Đã có tài khoản? Đăng nhập</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

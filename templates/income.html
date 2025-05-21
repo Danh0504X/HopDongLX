@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thu Nhập</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-taxi"></i>
+            <span>Hợp Đồng Tài Xế</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('welcome') }}"><i class="fas fa-home"></i> Trang Chủ</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="income-stats">
+            <h2>Thống Kê Thu Nhập</h2>
+            <div class="income-cards">
+                <div class="income-card">
+                    <h3>Thu Nhập Tháng {{ current_month }}/{{ current_year }}</h3>
+                    <p>{{ "{:,.0f}".format(monthly_income) }} VNĐ</p>
+                </div>
+                <div class="income-card">
+                    <h3>Thu Nhập Năm {{ current_year }}</h3>
+                    <p>{{ "{:,.0f}".format(yearly_income) }} VNĐ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

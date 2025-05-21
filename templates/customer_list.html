@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Khách Hàng</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-taxi"></i>
+            <span>Hợp Đồng Tài Xế</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('welcome') }}"><i class="fas fa-home"></i> Trang Chủ</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+        </div>
+    </nav>
+  <div class="container">
+    <div class="form-box">
+        <h2 class="customer-heading">Danh Sách Khách Hàng</h2>
+        <div class="results-container">
+            <table>
+                    <thead>
+                        <tr>
+                            <th>Tên Khách Hàng</th>
+                            <th>Số CCCD</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Số Hợp Đồng</th>
+                            <th>Tổng Chi Tiêu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.id_number }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td>{{ customer.contract_count }}</td>
+                            <td>{{ "{:,.0f}".format(customer.total_spending) }} VNĐ</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

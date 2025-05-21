@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Hợp Đồng</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-taxi"></i>
+            <span>Hợp Đồng Tài Xế</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('welcome') }}"><i class="fas fa-home"></i> Trang Chủ</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+        </div>
+    </nav>
+    <div class="container">
+        <a href="{{ url_for('welcome') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Trở về
+        </a>
+        <div class="contract-form">
+            <h2>Thêm Hợp Đồng Mới</h2>
+            <form action="{{ url_for('add_contract') }}" method="POST">
+                <div class="input-group">
+                    <input type="text" name="contract_number" placeholder="Mã hợp đồng" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="customer_name" placeholder="Tên khách hàng" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="id_number" placeholder="Số CCCD" required>
+                </div>
+                <div class="input-group">
+                    <input type="tel" name="phone" placeholder="Số điện thoại" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="pickup_location" placeholder="Nơi đi" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="dropoff_location" placeholder="Nơi đến" required>
+                </div>
+                <div class="input-group date-group">
+                    <input type="date" name="contract_date" id="contract_date" required>
+                    <button type="button" class="btn-today" onclick="setToday()">Hôm nay</button>
+                </div>
+                <div class="money-group">
+                    <div class="input-group">
+                        <label>Tổng tiền:</label>
+                        <input type="number" name="total_amount" placeholder="Nhập tổng tiền" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Tiền cọc:</label>
+                        <input type="number" name="deposit" placeholder="Nhập tiền cọc" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn">Lưu Hợp Đồng</button>
+                
+                <script>
+                    function setToday() {
+                        const today = new Date();
+                        const formattedDate = today.toISOString().split('T')[0];
+                        document.getElementById('contract_date').value = formattedDate;
+                    }
+                    // Set today's date as default
+                    setToday();
+                </script>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

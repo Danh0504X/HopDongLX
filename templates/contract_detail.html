@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết hợp đồng</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-taxi"></i>
+            <span>Hợp Đồng Tài Xế</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('welcome') }}"><i class="fas fa-home"></i> Trang Chủ</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+        </div>
+    </nav>
+    <div class="container">
+        <a href="{{ url_for('search_contracts') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Trở về
+        </a>
+        <div class="contract-detail">
+            <h2>Chi tiết hợp đồng</h2>
+            <form action="{{ url_for('update_contract', contract_id=contract.id) }}" method="POST" class="edit-form">
+                <div class="input-group">
+                    <label>Mã hợp đồng:</label>
+                    <input type="text" name="contract_number" value="{{ contract.contract_number or '' }}">
+                </div>
+                <div class="input-group">
+                    <label>Tên khách hàng:</label>
+                    <input type="text" name="customer_name" value="{{ contract.customer.name }}" required>
+                </div>
+                <div class="input-group">
+                    <label>Số CCCD:</label>
+                    <input type="text" name="id_number" value="{{ contract.customer.id_number }}" required>
+                </div>
+                <div class="input-group">
+                    <label>Số điện thoại:</label>
+                    <input type="tel" name="phone" value="{{ contract.customer.phone }}" required>
+                </div>
+                <div class="input-group">
+                    <label>Nơi đi:</label>
+                    <input type="text" name="pickup_location" value="{{ contract.pickup_location }}" required>
+                </div>
+                <div class="input-group">
+                    <label>Nơi đến:</label>
+                    <input type="text" name="dropoff_location" value="{{ contract.dropoff_location }}" required>
+                </div>
+                <div class="money-group">
+                    <div class="input-group">
+                        <label>Tổng tiền:</label>
+                        <input type="text" name="total_amount" value="{{ '{:,.0f}'.format(contract.money.total_amount) }} VNĐ" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Tiền cọc:</label>
+                        <input type="text" name="deposit" value="{{ '{:,.0f}'.format(contract.money.deposit) }} VNĐ">
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteContract()">Xóa hợp đồng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function deleteContract() {
+            if (confirm('Bạn có chắc muốn xóa hợp đồng này?')) {
+                window.location.href = "{{ url_for('delete_contract', contract_id=contract.id) }}";
+            }
+        }
+    </script>
+</body>
+</html>
