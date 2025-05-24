@@ -1,44 +1,120 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hợp Đồng Tài Xế</title>
+    <title>DriveContract Pro - Trang Chủ</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar">
-        <div class="brand">
+        <a href="{{ url_for('welcome') }}" class="brand">
             <i class="fas fa-taxi"></i>
-            <span>Hợp Đồng Tài Xế</span>
-        </div>
+            <span>DriveContract Pro</span>
+        </a>
         <div class="nav-links">
             <a href="{{ url_for('add_contract') }}"><i class="fas fa-plus"></i> Thêm Hợp Đồng</a>
             <a href="{{ url_for('search_contracts') }}"><i class="fas fa-search"></i> Tìm Kiếm</a>
-            <a href="{{ url_for('contract_list') }}"><i class="fas fa-list"></i> Danh Sách</a>
+            <a href="{{ url_for('profile') }}"><i class="fas fa-user"></i> Thông Tin</a>
             <a href="{{ url_for('customer_list') }}"><i class="fas fa-users"></i> Khách Hàng</a>
-            <a href="{{ url_for('income') }}"><i class="fas fa-money-bill"></i> Thu Nhập</a>
+            <a href="{{ url_for('income') }}"><i class="fas fa-chart-line"></i> Thu Nhập</a>
             <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
         </div>
     </nav>
+
+    <!-- Main Content -->
     <div class="container">
-        <div class="dashboard">
-            <h2>Chào mừng {{ user.username }}!</h2>
-            <div class="stats">
-                <div class="stat-card">
-                    <i class="fas fa-file-contract"></i>
-                    <h3>Tổng số hợp đồng</h3>
-                    <p>{{ contracts_count }}</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Khách hàng</h3>
-                    <p>{{ customers_count }}</p>
+        <!-- Hero Section -->
+        <section class="welcome-hero">
+            <div class="welcome-hero-content">
+                <h1>Xin chào, {{ user.username }}! 👋</h1>
+                <p class="welcome-subtitle">Quản lý hợp đồng tài xế thông minh và hiệu quả</p>
+                <div class="welcome-stats">
+                    <div class="welcome-stat-card">
+                        <span class="welcome-stat-number">{{ contracts_count }}</span>
+                        <span class="welcome-stat-label">Hợp đồng</span>
+                    </div>
+                    <div class="welcome-stat-card">
+                        <span class="welcome-stat-number">{{ customers_count }}</span>
+                        <span class="welcome-stat-label">Khách hàng</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="welcome-features">
+            <div class="feature-card">
+                <i class="fas fa-file-contract feature-icon"></i>
+                <h3 class="feature-title">Quản Lý Hợp Đồng</h3>
+                <p class="feature-description">Tạo và quản lý hợp đồng một cách chuyên nghiệp. Theo dõi trạng thái và chi tiết từng hợp đồng.</p>
+                <a href="{{ url_for('add_contract') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    <span>Tạo hợp đồng mới</span>
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h3 class="feature-title">Báo Cáo Thu Nhập</h3>
+                <p class="feature-description">Theo dõi và phân tích thu nhập theo tháng, năm. Xem thống kê chi tiết về doanh thu.</p>
+                <a href="{{ url_for('income') }}" class="btn btn-primary">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Xem báo cáo</span>
+                </a>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-users feature-icon"></i>
+                <h3 class="feature-title">Quản Lý Khách Hàng</h3>
+                <p class="feature-description">Lưu trữ và quản lý thông tin khách hàng. Xem lịch sử giao dịch và chi tiết từng khách hàng.</p>
+                <a href="{{ url_for('customer_list') }}" class="btn btn-primary">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Xem danh sách</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <a href="{{ url_for('add_contract') }}" class="action-card">
+                <i class="fas fa-plus-circle action-icon"></i>
+                <div class="action-content">
+                    <h3>Tạo Hợp Đồng Mới</h3>
+                    <p>Thêm hợp đồng mới vào hệ thống</p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('search_contracts') }}" class="action-card">
+                <i class="fas fa-search action-icon"></i>
+                <div class="action-content">
+                    <h3>Tìm Kiếm Hợp Đồng</h3>
+                    <p>Tra cứu thông tin hợp đồng</p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('profile') }}" class="action-card">
+                <i class="fas fa-user-cog action-icon"></i>
+                <div class="action-content">
+                    <h3>Cập Nhật Thông Tin</h3>
+                    <p>Chỉnh sửa thông tin cá nhân</p>
+                </div>
+            </a>
+        </section>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-taxi"></i>
+                DriveContract Pro
+            </div>
+            <p class="footer-text">© 2024 DriveContract Pro. Hệ thống quản lý hợp đồng tài xế chuyên nghiệp.</p>
+        </div>
+    </footer>
 </body>
 </html>

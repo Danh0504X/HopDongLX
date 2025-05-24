@@ -18,7 +18,7 @@
         <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
     </div>
 </nav>
-<div class="container">
+<div class="container form-box">
     <a href="{{ url_for('welcome') }}" class="back-button">
         <i class="fas fa-arrow-left"></i> Trở về
     </a>
@@ -39,7 +39,7 @@
 
     {% if contracts %}
     <div class="results-table">
-        <table>
+    <table style="width: 100%;">
             <thead>
                 <tr>
                     <th>Mã HĐ</th>

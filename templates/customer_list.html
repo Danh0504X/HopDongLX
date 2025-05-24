@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,33 +18,27 @@
             <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
         </div>
     </nav>
-  <div class="container">
-    <div class="form-box">
-        <h2 class="customer-heading">Danh Sách Khách Hàng</h2>
-        <div class="results-container">
-            <table>
-                    <thead>
-                        <tr>
-                            <th>Tên Khách Hàng</th>
-                            <th>Số CCCD</th>
-                            <th>Số Điện Thoại</th>
-                            <th>Số Hợp Đồng</th>
-                            <th>Tổng Chi Tiêu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for customer in customers %}
-                        <tr>
-                            <td>{{ customer.name }}</td>
-                            <td>{{ customer.id_number }}</td>
-                            <td>{{ customer.phone }}</td>
-                            <td>{{ customer.contract_count }}</td>
-                            <td>{{ "{:,.0f}".format(customer.total_spending) }} VNĐ</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+    <div class="container">
+        <div class="form-box">
+            <h2 class="customer-heading">Danh Sách Khách Hàng</h2>
+
+            <div class="customer-card-container">
+                {% for customer in customers %}
+                <div class="customer-card">
+                    <h3>{{ customer.name }}</h3>
+                    <p><strong>CCCD:</strong> {{ customer.id_number }}</p>
+                    <p><strong>SĐT:</strong> {{ customer.phone }}</p>
+                    <p><strong>Số hợp đồng:</strong> {{ customer.contract_count }}</p>
+                    <p><strong>Tổng chi tiêu:</strong> 
+                        <span {% if customer.total_spending >= 10000000 %} style="color: red;" {% endif %}>
+                            {{ "{:,.0f}".format(customer.total_spending) }} VNĐ
+                        </span>
+                    </p>
+                </div>
+                {% endfor %}
             </div>
+
         </div>
     </div>
 </body>

@@ -1,38 +1,151 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thu Nhập</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Thống Kê Thu Nhập - DriveContract Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='income.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav class="navbar">
-        <div class="brand">
+        <a href="{{ url_for('welcome') }}" class="brand">
             <i class="fas fa-taxi"></i>
-            <span>Hợp Đồng Tài Xế</span>
-        </div>
+            <span>DriveContract Pro</span>
+        </a>
         <div class="nav-links">
             <a href="{{ url_for('welcome') }}"><i class="fas fa-home"></i> Trang Chủ</a>
+            <a href="{{ url_for('add_contract') }}"><i class="fas fa-plus"></i> Thêm Hợp Đồng</a>
             <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
         </div>
     </nav>
-    <div class="container">
-        <div class="income-stats">
-            <h2>Thống Kê Thu Nhập</h2>
-            <div class="income-cards">
+
+    <div class="income-container">
+        <div class="income-header">
+            <h1>Thống Kê Thu Nhập</h1>
+        </div>
+
+        <!-- Phần thống kê bên trái -->
+        <div class="income-stats-container">
+            <div class="income-grid">
+                <!-- Thu nhập tháng này -->
                 <div class="income-card">
-                    <h3>Thu Nhập Tháng {{ current_month }}/{{ current_year }}</h3>
-                    <p>{{ "{:,.0f}".format(monthly_income) }} VNĐ</p>
+                    <h3 class="income-card-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        Thu nhập tháng {{ current_month }}/{{ current_year }}
+                    </h3>
+                    <div class="income-amount">{{ "{:,.0f}".format(monthly_income) }} VND</div>
+                    <div class="income-label">Tổng thu nhập trong tháng</div>
                 </div>
+
+                <!-- Thu nhập năm -->
                 <div class="income-card">
-                    <h3>Thu Nhập Năm {{ current_year }}</h3>
-                    <p>{{ "{:,.0f}".format(yearly_income) }} VNĐ</p>
+                    <h3 class="income-card-title">
+                        <i class="fas fa-calendar"></i>
+                        Thu nhập năm {{ current_year }}
+                    </h3>
+                    <div class="income-amount">{{ "{:,.0f}".format(yearly_income) }} VND</div>
+                    <div class="income-label">Tổng thu nhập trong năm</div>
+                </div>
+
+                <!-- Số hợp đồng tháng này -->
+                <div class="income-card">
+                    <h3 class="income-card-title">
+                        <i class="fas fa-file-contract"></i>
+                        Số hợp đồng tháng này
+                    </h3>
+                    <div class="income-count">{{ monthly_contracts }}</div>
+                    <div class="income-label">Hợp đồng đã ký trong tháng</div>
+                </div>
+
+                <!-- Số hợp đồng năm -->
+                <div class="income-card">
+                    <h3 class="income-card-title">
+                        <i class="fas fa-file-signature"></i>
+                        Số hợp đồng năm {{ current_year }}
+                    </h3>
+                    <div class="income-count">{{ yearly_contracts }}</div>
+                    <div class="income-label">Hợp đồng đã ký trong năm</div>
+                </div>
+
+                <!-- Thu nhập trung bình mỗi hợp đồng -->
+                <div class="income-card">
+                    <h3 class="income-card-title">
+                        <i class="fas fa-chart-line"></i>
+                        Thu nhập trung bình/Hợp đồng
+                    </h3>
+                    <div class="income-amount">{{ "{:,.0f}".format(average_income) }} VND</div>
+                    <div class="income-label">Trung bình thu nhập mỗi hợp đồng</div>
                 </div>
             </div>
         </div>
+
+        <!-- Biểu đồ bên phải -->
+        <div class="chart-container">
+            <h3>
+                <i class="fas fa-chart-bar"></i>
+                Biểu Đồ Thu Nhập Theo Tháng
+            </h3>
+            <canvas id="incomeChart"></canvas>
+        </div>
     </div>
+
+    <script>
+        // Dữ liệu biểu đồ
+        const monthlyData = {{ monthly_data|tojson|safe }};
+        const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+        
+        // Khởi tạo biểu đồ
+        const ctx = document.getElementById('incomeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Thu nhập (VND)',
+                    data: monthlyData,
+                    backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                    borderColor: 'rgba(79, 70, 229, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return new Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(value);
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return new Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(context.raw);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
